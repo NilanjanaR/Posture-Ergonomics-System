@@ -1,0 +1,98 @@
+<!-- edit_profile.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .edit-header {
+        margin-bottom: 30px;
+    }
+
+    .edit-card {
+        background-color: #ffffff;
+        border: 2px solid #14b8a6;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        max-width: 600px;
+        margin: 0 auto; /* මේකෙන් තමයි මැදට එන්නේ */
+    }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #334155; font-size: 0.9rem; }
+    
+    .form-group input[type="text"], 
+    .form-group input[type="email"] {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        background-color: #f8fafc;
+    }
+    .form-group input:focus { border-color: #14b8a6; box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15); }
+    
+    .form-group input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px dashed #14b8a6;
+        border-radius: 10px;
+        background-color: #f0fdfa;
+    }
+
+    .btn-save {
+        background-color: #14b8a6;
+        color: #000;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+        width: 100%;
+    }
+    .btn-save:hover { background-color: #0d9488; }
+    
+    .btn-cancel {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 500;
+    }
+</style>
+
+<!-- උඩ තියෙන හෙඩිම සහ අලුත් වාක්‍යය -->
+<div class="edit-header">
+    
+    <h1 style="margin-bottom: 10px;">Edit Profile</h1>
+    <p style="color: #64748b; font-size: 1.05rem;">Update your personal information to keep your account up to date.</p>
+</div>
+
+<div class="edit-card">
+    <form action="/edit_profile" method="POST" enctype="multipart/form-data">
+        
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="fullname" value="{{ user.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Profile Picture (Upload Image)</label>
+            <input type="file" name="profile_image" accept="image/*">
+            <small style="color: #64748b; margin-top: 5px; display: block;">Leave empty to keep your current picture.</small>
+        </div>
+
+        <button type="submit" class="btn-save">Save Changes</button>
+        <a href="/profile" class="btn-cancel">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+<!-- recommendations.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .rec-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+    
+    .rec-card {
+        background-color: #ffffff;
+        border: 2px solid #14b8a6;
+        border-radius: 15px;
+        overflow: hidden; 
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .rec-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 2px solid #14b8a6;
+    }
+
+    .rec-content {
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .rec-type {
+        display: inline-block;
+        background-color: #f0fdfa;
+        color: #0f766e;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        align-self: flex-start;
+    }
+
+    .rec-content h3 {
+        color: #0f172a;
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    .rec-content p {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex: 1; 
+    }
+
+    .video-btn {
+        display: block;
+        text-align: center;
+        background-color: #0f172a;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.2s;
+    }
+    
+    .video-btn:hover {
+        background-color: #14b8a6;
+        color: #000;
+    }
+
+    .score-badge {
+        background-color: #14b8a6;
+        color: #000;
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-weight: bold;
+        margin-left: 10px;
+        font-size: 1.2rem;
+    }
+    
+    .issue-pill {
+        display: inline-block;
+        background-color: #fee2e2;
+        color: #b91c1c;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<!-- උඩ තියෙන හෙඩිම සහ අලුත් වාක්‍යය -->
+<div style="margin-bottom: 30px;">
+
+    <h1 style="margin-bottom: 10px; display: flex; align-items: center;">
+        Recommendations & Exercises <span class="score-badge">{{ score }}%</span>
+        <span style="font-size: 1rem; margin-left: 15px; color: #64748b; font-weight: 500;">{{ status }}</span>
+    </h1>
+    <p style="color: #64748b; margin-bottom: 20px; font-size: 1.05rem;">Tailored ergonomic tips and exercises based on your latest posture scan.</p>
+    
+    {% if issues %}
+        <div>
+            <strong style="color: #0f172a; font-size: 0.9rem;">Detected Issues: </strong>
+            {% for issue in issues %}
+                <span class="issue-pill">{{ issue }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if score > 0 %}
+            <div>
+                <span style="background-color: #ccfbf1; color: #0f766e; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">No Issues Detected - Great Posture!</span>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div class="rec-grid">
+    {% for rec in recs %}
+    <div class="rec-card">
+        {% if rec.image_url %}
+            <img src="{{ rec.image_url }}" alt="{{ rec.title }}" class="rec-image">
+        {% endif %}
+        
+        <div class="rec-content">
+            <span class="rec-type">{{ rec.type }}</span>
+            <h3>{{ rec.title }}</h3>
+            <p>{{ rec.desc }}</p>
+            
+            {% if rec.video_url %}
+                <a href="{{ rec.video_url }}" target="_blank" class="video-btn">▶ Watch Video Guide</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

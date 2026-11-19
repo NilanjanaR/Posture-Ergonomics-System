@@ -1,0 +1,63 @@
+<!-- dashboard.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<!-- උඩ තියෙන හෙඩිම සහ අලුත් වාක්‍යය -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div>
+        <h1 style="margin-bottom: 10px;">Main User Dashboard</h1>
+        <p style="color: #64748b; font-size: 1.05rem;">Overview of your posture health and recent scanning activity.</p>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; color: #64748b; font-size: 0.9rem; font-weight: 500;">
+        <span style="display: inline-block; width: 8px; height: 8px; background-color: #14b8a6; border-radius: 50%; box-shadow: 0 0 8px #14b8a6;"></span>
+        System Operational
+    </div>
+</div>
+
+<!-- ප්‍රධාන කාඩ් එක සහ අනිත් කාඩ් ටික තියෙන Grid එක -->
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px;">
+    
+    <!-- 1. වම් පැත්තේ ලොකු කාඩ් එක (My Posture Score) -->
+    <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 25px; font-weight: 500;">My Posture Score</p>
+        
+        <div style="position: relative; width: 180px; height: 180px; border-radius: 50%; 
+                    background: conic-gradient(#14b8a6 {{ latest_score }}%, #e2e8f0 0); 
+                    display: flex; align-items: center; justify-content: center;">
+            <div style="position: absolute; width: 145px; height: 145px; border-radius: 50%; background-color: #ffffff;"></div>
+            <span style="position: relative; font-size: 2.5rem; font-weight: 700; color: #0f172a;">{{ latest_score }}%</span>
+        </div>
+        
+        <p style="margin-top: 25px; font-weight: 600; font-size: 1.1rem; 
+                  color: {% if latest_status == 'Good' %}#14b8a6{% elif latest_status == 'Needs Attention' %}#f59e0b{% else %}#ef4444{% endif %};">
+            {{ latest_status }}
+        </p>
+    </div>
+
+    <!-- 2. දකුණු පැත්තේ කාඩ් ටික -->
+    <div style="display: flex; flex-direction: column; gap: 25px;">
+        
+        <div class="card" style="display: flex; flex-direction: column; justify-content: center; padding: 25px 30px;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 5px; font-weight: 500;">Average Score</p>
+            <h2 style="color: #0f172a; font-size: 2.2rem; margin: 0;">{{ avg_score }}%</h2>
+        </div>
+        
+        <div class="card" style="display: flex; flex-direction: column; justify-content: center; padding: 25px 30px;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 5px; font-weight: 500;">Compliance</p>
+            <h2 style="color: {% if compliance_status == 'Good' %}#14b8a6{% elif compliance_status == 'Needs Attention' %}#f59e0b{% else %}#ef4444{% endif %}; font-size: 2.2rem; margin: 0;">
+                {{ compliance_status }}
+            </h2>
+        </div>
+
+        <a href="/scan" class="card" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; padding: 25px 30px; transition: 0.3s; background-color: #f0fdfa;" onmouseover="this.style.backgroundColor='#ccfbf1'" onmouseout="this.style.backgroundColor='#f0fdfa'">
+            <div>
+                <h3 style="color: #0f172a; margin-bottom: 5px; font-size: 1.1rem;">Start Posture Scan</h3>
+                <p style="color: #64748b; font-size: 0.85rem;">Upload a clear full-body image</p>
+            </div>
+            <div style="color: #14b8a6; font-size: 1.5rem; font-weight: bold;">→</div>
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

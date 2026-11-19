@@ -1,0 +1,111 @@
+<!-- profile.html -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .profile-header {
+        margin-bottom: 30px;
+    }
+
+    .profile-card {
+        background-color: #ffffff;
+        border: 2px solid #14b8a6;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        max-width: 700px;
+        margin: 0 auto; /* මේකෙන් තමයි මැදට එන්නේ */
+        position: relative;
+    }
+
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+        background-color: #14b8a6;
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .avatar-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .account-info h2 { color: #0f172a; font-size: 1.8rem; margin-bottom: 5px; font-weight: 700; }
+    .account-info p { color: #64748b; font-size: 1rem; margin-bottom: 30px; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .info-box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 10px; }
+    .info-box p { color: #64748b; font-size: 0.85rem; margin-bottom: 8px; font-weight: 500; }
+    .info-box h4 { color: #0f172a; font-size: 1.2rem; margin: 0; font-weight: 600; }
+
+    .edit-btn {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        background-color: #f0fdfa;
+        color: #0f766e;
+        border: 1px solid #14b8a6;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.2s;
+    }
+    .edit-btn:hover { background-color: #14b8a6; color: #000; }
+</style>
+
+<!-- උඩ තියෙන හෙඩිම සහ අලුත් වාක්‍යය -->
+<div class="profile-header">
+    
+    <h1 style="margin-bottom: 10px;">My Profile</h1>
+    <p style="color: #64748b; font-size: 1.05rem;">Manage your personal account details and profile picture.</p>
+</div>
+
+{% if user %}
+<div class="profile-card">
+    
+    <a href="/edit_profile" class="edit-btn">✎ Edit Profile</a>
+
+    <div class="avatar-circle">
+        {% if user.image %}
+            <img src="{{ user.image }}" alt="Profile Picture">
+        {% else %}
+            {{ user.name[0] | upper }}
+        {% endif %}
+    </div>
+
+    <div class="account-info">
+        <p class="eyebrow" style="color: #14b8a6; margin-bottom: 5px;">ACCOUNT INFORMATION</p><br>
+        <h2>{{ user.name }}</h2>
+        <p>{{ user.email }}</p>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box">
+            <p>Account ID</p>
+            <h4>{{ user.id }}</h4>
+        </div>
+        <div class="info-box">
+            <p>Member Since</p>
+            <h4>{{ user.joined }}</h4>
+        </div>
+    </div>
+
+</div>
+{% else %}
+<div class="profile-card">
+    <p style="color: #ef4444; text-align: center;">Could not load user details. Please try logging in again.</p>
+</div>
+{% endif %}
+
+{% endblock %}
